@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 01:06:45 2017 Ronan Boiteau
-## Last update Mon Jan  2 12:11:06 2017 Ronan Boiteau
+## Last update Mon Jan  2 13:25:19 2017 Ronan Boiteau
 ##
 
 print_usage()
@@ -28,7 +28,7 @@ check_usage()
     (( char_pos-- ))
     while (( char_pos > 0 )) ; do
 	(( char_pos-- ))
-	if (( ${binary:$char_pos:1} != 0 && ${binary:$char_pos:1} != 1 )) ; then
+	if [ "${binary:$char_pos:1}" != "0" ] && [ "${binary:$char_pos:1}" != "1" ] ; then
 	    print_usage
 	fi
     done
