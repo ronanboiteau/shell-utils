@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 17:36:13 2017 Ronan Boiteau
-## Last update Mon Jan  2 21:59:07 2017 Ronan Boiteau
+## Last update Mon Jan  2 22:56:54 2017 Ronan Boiteau
 ##
 
 print_usage()
@@ -39,6 +39,20 @@ option_parser()
 	esac
 	shift
     done
+    if [ "$mode" = "none" ] ; then
+	print_usage
+    fi
+}
+
+upcase_lowcase()
+{
+    while read line ; do
+	if [ "$mode" = "lowcase" ] ; then
+	    echo "$line" | tr '[:upper:]' '[:lower:]'
+	else
+	    echo "$line" | tr '[:lower:]' '[:upper:]'
+	fi
+    done
 }
 
 main()
@@ -46,9 +60,7 @@ main()
     readonly progname="$0"
 
     option_parser "$@"
-    if [ "$mode" = "none" ] ; then
-	print_usage
-    fi
+    upcase_lowcase "$@"
     exit 0
 }
 
