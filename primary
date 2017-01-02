@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 14:04:10 2017 Ronan Boiteau
-## Last update Mon Jan  2 15:52:58 2017 Ronan Boiteau
+## Last update Mon Jan  2 16:22:36 2017 Ronan Boiteau
 ##
 
 check_usage()
@@ -18,7 +18,11 @@ check_usage()
 	exit 1
     fi
 
-    # Check if arg1 only contains numbers
+    echo "$1" | grep -qE "^[0-9]+$"
+    if (( $? == 1 )) ; then
+	>&2 echo "ERROR"
+	exit 1
+    fi
 }
 
 is_prime()
