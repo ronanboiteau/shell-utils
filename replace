@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 16:03:32 2017 Ronan Boiteau
-## Last update Mon Jan  2 17:25:04 2017 Ronan Boiteau
+## Last update Mon Jan  2 21:36:43 2017 Ronan Boiteau
 ##
 
 check_usage()
@@ -22,13 +22,9 @@ check_usage()
 replace()
 {
     readonly orig=$(cat "$1")
-    # readonly repl=$(cat "$2")
+    readonly repl="$2"
     readonly file="$3"
-
-    cat $file | while read line
-    do
-	echo $line
-    done
+    idx=1
 }
 
 main()
