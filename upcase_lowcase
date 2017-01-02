@@ -5,42 +5,36 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 17:36:13 2017 Ronan Boiteau
-## Last update Mon Jan  2 18:30:29 2017 Ronan Boiteau
+## Last update Mon Jan  2 21:59:07 2017 Ronan Boiteau
 ##
 
-check_usage()
+print_usage()
 {
-    readonly argc="$#"
-
-    if (( "$argc" != 2 )) ; then
-	>&2 echo "USAGE: $progname number"
-	>&2 echo "Compute factorial of a number"
-	exit 1
-    fi
+    >&2 echo "USAGE: $progname -l -u"
+    >&2 echo "-l : lowcase"
+    >&2 echo "-u : upcase"
+    exit 1
 }
 
 option_parser()
 {
-    pull="true"
-    migrate="true"
-    restart_only="false"
+    mode="none"
     
     while (( "$#" > 0 )) ; do
 	arg="$1"
 	case $arg in
-	    "--commit")
-		commit="$2"
-		shift
+	    "-l")
+		mode="lowcase"
 		;;
-	    "-r"|"--restart")
-		restart_only="true"
+	    "-u")
+		mode="upcase"
 		;;
-	    "--help")
-		print_help
+	    "-*")
+		>&2 echo "ERROR: $arg unknown option"
+		exit 1
 		;;
 	    *)
-		>&2 echo "ERROR: $arg unknown option" # Check if option or arg
-		exit 1
+		print_usage
 		;;
 	esac
 	shift
@@ -51,8 +45,10 @@ main()
 {
     readonly progname="$0"
 
-    check_usage "$@"
     option_parser "$@"
+    if [ "$mode" = "none" ] ; then
+	print_usage
+    fi
     exit 0
 }
 
