@@ -1,0 +1,130 @@
+#!/bin/bash
+
+print_usage()
+{
+    >&2 echo "USAGE: $progname option"
+    >&2 echo "option: -user user1 ... : Kill all processes for user1, ..."
+    >&2 echo "        -pid pid1 ... : Kill a process with pid pid1, ..."
+    >&2 echo "        -prog prog1 ... : Kill all processes whose program's name is prog1, ..."
+    >&2 echo "        -all : Kill all processes"
+    exit 1
+}
+
+option_set_mode()
+{
+    if [ "$mode" != "none" ] ; then
+        print_usage
+    fi
+    mode="$1"
+}
+
+option_parser()
+{
+    mode="none"
+    
+    while [ "$#" -gt 0 ] ; do
+        arg="$1"
+        case $arg in
+            -user)
+                option_set_mode "user"
+                ;;
+            -pid)
+                option_set_mode "pid"
+                ;;
+            -prog)
+                option_set_mode "prog"
+                ;;
+            -all)
+                option_set_mode "all"
+                ;;
+            -*)
+                >&2 echo "ERROR: $arg unknown option"
+                exit 1
+                ;;
+        esac
+        shift
+    done
+    if [ "$mode" = "none" ] ; then
+        print_usage
+    fi
+}
+
+kill_user()
+{
+    while [ "$#" -gt 1 ] ; do
+        user_pids=$(ps -ef | grep "$2" | sed 's/ \+/ /g' | cut -d' ' -f2)
+        echo $user_pids | tr ' ' '\n' | while read line ; do
+            kill "$line" 2>/dev/null
+            if [ $? -eq 1 ] ; then
+                echo "ERROR: pid $line : no process found"
+                exit_status=1
+            fi
+        done
+        shift
+    done
+}
+
+kill_pid()
+{
+    while [ "$#" -gt 1 ] ; do
+        kill "$2" 2>/dev/null
+        if [ $? -eq 1 ] ; then
+            echo "ERROR: pid $2 : no process found"
+            exit_status=1
+        fi
+        shift
+    done
+}
+
+kill_prog()
+{
+    while [ "$#" -gt 1 ] ; do
+        user_pids=$(ps -e | sed '1d' | sed 's/ \+/ /g' | cut -d ' ' -f 2,5 | grep " $2" | cut -d ' ' -f 1)
+        echo $user_pids | tr ' ' '\n' | while read line ; do
+            kill "$line" 2>/dev/null
+            if [ $? -eq 1 ] ; then
+                echo "ERROR: pid $line : no process found"
+                exit_status=1
+            fi
+        done
+        shift
+    done
+}
+
+kill_all()
+{
+    while [ "$#" -gt 1 ] ; do
+        user_pids=$(ps -ef | sed '1d' | sed 's/ \+/ /g' | cut -d' ' -f2 | sort -nr)
+        echo $user_pids | tr ' ' '\n' | while read line ; do
+            if [ "$line" != "$$" ] ; then
+                echo lel
+                kill "$line" 2>/dev/null
+                if [ $? -eq 1 ] ; then
+                    echo "ERROR: pid $line : no process found"
+                    exit_status=1
+                fi
+            fi
+        done
+        shift
+    done
+}
+
+main()
+{
+    readonly progname="$0"
+    exit_status=0
+
+    option_parser "$@"
+    if [ $mode == "user" ] ; then
+        kill_user "$@"
+    elif [ $mode == "pid" ] ; then
+        kill_pid "$@"
+    elif [ $mode == "prog" ] ; then
+        kill_prog "$@"
+    elif [ $mode == "all" ] ; then
+        kill_all "$@"
+    fi
+    exit $exit_status
+}
+
+main "$@"

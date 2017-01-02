@@ -1,0 +1,70 @@
+#!/bin/bash
+
+pop_error()
+{
+    >&2 echo "Error"
+    exit 1
+}
+
+check_usage()
+{
+    readonly argc="$#"
+    negative="false"
+
+    if [ "$argc" -ne 1 ] ; then
+        >&2 echo "USAGE: $progname BinNumber"
+        >&2 echo "Convert binary number to decimal number"
+        exit 1
+    fi
+
+    echo "$1" | grep -qE "^[01]+$"
+    if (( $? == 1 )) ; then
+        echo "$1" | grep -qE "^-[01]+$"
+        if (( $? == 0 )) ; then
+            negative="true"
+        else
+            pop_error
+        fi
+    fi
+
+    if [ $(( $(echo $1 | wc -m) - 1 )) -gt 63 ] ; then
+        pop_error
+    fi
+}
+
+bin2dec()
+{
+    binary="$1"
+    decimal=0
+    if [ $negative = "true" ] ; then
+        binary=$(echo $binary | sed 's/^.//')
+    fi
+    chars_count=$(echo "$binary" | wc -m)
+    chars_count=$(( $chars_count - 1 ))
+    char_pos=$chars_count
+    while (( $char_pos > 0 )) ; do
+        char_pos=$(( $char_pos - 1 ))
+        offset=$(( $chars_count - $char_pos - 1 ))
+        bit=${binary:$char_pos:1}
+        echo "bit=" $bit
+        if (( $bit == 1 )) ; then
+            let decimal="$decimal + 2 ** $offset"
+        fi
+    done
+    echo -n "bin2dec($1)="
+    if [ $negative = "true" ] ; then
+        echo -n "-"
+    fi
+    echo "$decimal"
+}
+
+main()
+{
+    readonly progname="$0"
+
+    check_usage "$@"
+    bin2dec "$1"
+    exit 0
+}
+
+main "$@"

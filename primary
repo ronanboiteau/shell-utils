@@ -1,0 +1,63 @@
+#!/bin/bash
+
+check_usage()
+{
+    readonly argc="$#"
+
+    if [ "$argc" -ne 1 ] ; then
+        >&2 echo "USAGE: $progname n"
+        >&2 echo "Display n first primary number"
+        exit 1
+    fi
+
+    echo "$1" | grep -qE "^[0-9]+$"
+    if [ $? -eq 1 ] ; then
+        >&2 echo "ERROR"
+        exit 1
+    fi
+}
+
+is_prime()
+{
+    nbr=$1
+    idx=2
+    while [ $idx -lt $nbr ] ; do
+        if [ $(expr $nbr % $idx) -eq 0 ] ; then
+            echo 0
+            return
+        fi
+        idx=$(expr $idx + 1)
+    done
+    echo 1
+}
+
+find_primary()
+{
+    nbr_prime=$1
+    prime=0
+    nbr=2
+    while [ $prime -lt $nbr_prime ] ; do
+        if [ $(is_prime $nbr) -eq 1 ] ; then
+            if [ $prime -ne 0 ] ; then
+                echo -n " "
+            fi
+            echo -n "$nbr"
+            prime=$(expr $prime + 1)
+        fi
+        nbr=$(expr $nbr + 1)
+    done
+    if [ $prime -gt 0 ] ; then
+        echo
+    fi
+}
+
+main()
+{
+    readonly progname="$0"
+
+    check_usage "$@"
+    find_primary "$1"
+    exit 0
+}
+
+main "$@"

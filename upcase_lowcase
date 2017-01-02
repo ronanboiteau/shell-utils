@@ -1,0 +1,59 @@
+#!/bin/bash
+
+print_usage()
+{
+    >&2 echo "USAGE: $progname -l -u"
+    >&2 echo "-l : lowcase"
+    >&2 echo "-u : upcase"
+    exit 1
+}
+
+option_parser()
+{
+    let mode="none"
+    
+    while [ "$#" -gt 0 ] ; do
+        arg="$1"
+        case "$arg" in
+            -l)
+                mode="lowcase"
+            ;;
+            -u)
+                mode="upcase"
+            ;;
+            -*)
+                >&2 echo "ERROR: $arg unknown option"
+                exit 1
+            ;;
+            *)
+                print_usage
+            ;;
+        esac
+        shift
+    done
+    if [ "$mode" = "none" ] ; then
+        print_usage
+    fi
+}
+
+upcase_lowcase()
+{
+    while read line ; do
+        if [ "$mode" = "lowcase" ] ; then
+            echo "$line" | tr '[:upper:]' '[:lower:]'
+        else
+            echo "$line" | tr '[:lower:]' '[:upper:]'
+        fi
+    done
+}
+
+main()
+{
+    readonly progname="$0"
+
+    option_parser "$@"
+    upcase_lowcase "$@"
+    exit 0
+}
+
+main "$@"

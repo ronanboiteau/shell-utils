@@ -1,0 +1,44 @@
+#!/bin/bash
+
+check_usage()
+{
+    readonly argc="$#"
+
+    if [ "$argc" -ne 1 ] ; then
+        >&2 echo "USAGE: $progname number"
+        >&2 echo "Compute factorial of a number"
+        exit 1
+    fi
+
+    echo "$1" | grep -qE "^[0-9]+$"
+    if [ "$?" -ne 0 ] ; then
+        >&2 echo "Error"
+        exit 1
+    fi
+}
+
+find_factorial()
+{
+    nbr=$1
+    if [ "$nbr" -gt 20 ] ; then
+        >&2 echo "Error"
+        exit 1
+    fi
+    result=1
+    while [ "$nbr" -gt 0 ] ; do
+        result=$(( result * nbr ))
+        nbr=$(( $nbr - 1 ))
+    done
+    echo $result
+}
+
+main()
+{
+    readonly progname="$0"
+
+    check_usage "$@"
+    find_factorial "$1"
+    exit 0
+}
+
+main "$@"

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+check_usage()
+{
+    let argc="$1"
+    
+    if (( "$argc" != 1 )) ; then
+        echo "Usage: $progname [FILE|FOLDER]"
+        exit 1
+    fi
+    return 0
+}
+
+check_filepath()
+{
+    if [[ ! -d "$1" ]] && [[ ! -f "$1" ]] ; then
+        echo "$progname: cannot encrypt '$1': No such file or directory"
+        exit 1
+    fi
+    return 0
+}
+
+check_read_permission()
+{
+    if [[ ! -r "$1" ]] ; then
+        echo "Cannot read '$1': Permission denied"
+        exit 1
+    fi
+    return 0
+}
+
+main()
+{
+    check_usage "$#"
+    readonly filepath="$1"
+    check_filepath "$filepath"
+    check_read_permission "$filepath"
+
+    echo -e "Passphrase? \c"
+    read passphrase
+
+    7z a -tzip "-p$passphrase" -mem=AES256 "$1.zip" "$1"
+    
+    exit 0
+}
+
+readonly progname="my7zcrypt"
+main "$@"

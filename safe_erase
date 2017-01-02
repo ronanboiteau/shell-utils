@@ -1,0 +1,40 @@
+#!/bin/bash
+
+check_usage()
+{
+    readonly argc="$1"
+    
+    if (( "$argc" != 1 )) ; then
+        echo "Usage: $progname [FILE|FOLDER]"
+        exit 1
+    fi
+    return 0
+}
+
+check_filepath()
+{
+    if [[ ! -f "$1" ]] ; then
+        echo "$progname: cannot encrypt '$1': No such file"
+        if [[ -d "$1" ]] ; then
+            echo "$progname does not support directories at this time"
+        fi
+        exit 1
+    fi
+    return 0
+}
+
+main()
+{
+    check_usage "$#"
+    readonly filepath="$1"
+    check_filepath "$filepath"
+
+    echo -e "How many passes? \c"
+    read passes
+    shred -vfuz --iterations=$passes "$1"
+
+    exit 0
+}
+
+readonly progname="safe_erase"
+main "$@"
