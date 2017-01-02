@@ -5,14 +5,14 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 01:06:45 2017 Ronan Boiteau
-## Last update Mon Jan  2 11:52:40 2017 Ronan Boiteau
+## Last update Mon Jan  2 11:59:10 2017 Ronan Boiteau
 ##
 
 check_usage()
 {
     readonly argc="$#"
 
-    if (( "$argc" < 1 )) ; then
+    if (( "$argc" != 1 )) ; then
 	>&2 echo "USAGE: $progname BinNumber"
 	>&2 echo "Convert binary number to decimal number"
 	exit 1
