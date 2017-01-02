@@ -1,0 +1,39 @@
+#!/bin/sh
+## bin2dec for bin2dec in /home/ronan/rendu/SHL_2016_shell
+## 
+## Made by Ronan Boiteau
+## Login   <ronan.boiteau@epitech.net>
+## 
+## Started on  Mon Jan  2 01:06:45 2017 Ronan Boiteau
+## Last update Mon Jan  2 01:29:45 2017 Ronan Boiteau
+##
+
+check_usage()
+{
+    readonly argc="$#"
+
+    if (( "$argc" < 1 )) ; then
+	>&2 echo "USAGE: $progname BinNumber"
+	>&2 echo "Convert binary number to decimal number"
+	exit 1
+    fi
+}
+
+bin2dec()
+{
+    readonly decimal="$1"
+    binary="None"
+
+    echo "bin2dec($decimal)=$binary"
+}
+
+main()
+{
+    readonly progname="$0"
+
+    check_usage "$@"
+    bin2dec "$1"
+    exit 0
+}
+
+main "$@"
