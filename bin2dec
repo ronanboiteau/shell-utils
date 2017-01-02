@@ -5,22 +5,17 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 01:06:45 2017 Ronan Boiteau
-## Last update Mon Jan  2 13:25:19 2017 Ronan Boiteau
+## Last update Mon Jan  2 13:32:32 2017 Ronan Boiteau
 ##
-
-print_usage()
-{
-    >&2 echo "USAGE: $progname BinNumber"
-    >&2 echo "Convert binary number to decimal number"
-    exit 1
-}
 
 check_usage()
 {
     readonly argc="$#"
 
     if (( "$argc" != 1 )) ; then
-	print_usage
+	>&2 echo "USAGE: $progname BinNumber"
+	>&2 echo "Convert binary number to decimal number"
+	exit 1
     fi
 
     binary="$1"
@@ -29,7 +24,8 @@ check_usage()
     while (( char_pos > 0 )) ; do
 	(( char_pos-- ))
 	if [ "${binary:$char_pos:1}" != "0" ] && [ "${binary:$char_pos:1}" != "1" ] ; then
-	    print_usage
+	    >&2 echo "Error"
+	    exit 1
 	fi
     done
 }
