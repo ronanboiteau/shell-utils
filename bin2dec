@@ -5,23 +5,23 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 01:06:45 2017 Ronan Boiteau
-## Last update Mon Jan  2 16:41:28 2017 Ronan Boiteau
+## Last update Tue Jan  3 11:46:43 2017 Ronan Boiteau
 ##
 
 check_usage()
 {
     readonly argc="$#"
 
-    if (( "$argc" != 1 )) ; then
-	>&2 echo "USAGE: $progname BinNumber"
-	>&2 echo "Convert binary number to decimal number"
-	exit 1
+    if [ "$argc" -ne 1 ] ; then
+        >&2 echo "USAGE: $progname BinNumber"
+        >&2 echo "Convert binary number to decimal number"
+        exit 1
     fi
 
     echo "$1" | grep -qE "^[01]+$"
-    if (( $? == 1 )) ; then
-	>&2 echo "Error"
-	exit 1
+    if [ $? -eq 1 ] ; then
+        >&2 echo "Error"
+        exit 1
     fi
 }
 
@@ -31,15 +31,15 @@ bin2dec()
     decimal=0
 
     chars_count=$(echo "$binary" | wc -m)
-    (( chars_count-- ))
+    chars_count=`expr $chars_count - 1`
     char_pos=$chars_count
     while (( char_pos > 0 )) ; do
-	(( char_pos-- ))
-	offset=$(( $chars_count - $char_pos - 1 ))
-	# FORBIDDEN? REPLACE BY EXPR!
-	if (( ${binary:$char_pos:1} == 1 )) ; then
-	    decimal=$(( $decimal + 2 ** $offset ))
-	fi
+	char_pos=`expr $char_pos - 1`
+        offset=`expr $chars_count - $char_pos - 1`
+        # FORBIDDEN? REPLACE BY EXPR!
+        if (( ${binary:$char_pos:1} == 1 )) ; then
+            decimal=$(( $decimal + 2 ** $offset ))
+        fi
     done
     echo "bin2dec($binary)=$decimal"
 }
