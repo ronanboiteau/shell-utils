@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 01:06:45 2017 Ronan Boiteau
-## Last update Tue Jan  3 11:46:43 2017 Ronan Boiteau
+## Last update Tue Jan  3 13:53:45 2017 Ronan Boiteau
 ##
 
 check_usage()
@@ -19,7 +19,7 @@ check_usage()
     fi
 
     echo "$1" | grep -qE "^[01]+$"
-    if [ $? -eq 1 ] ; then
+    if [ $? -eq 1 ] || [ $(expr $(echo $1 | wc -m) - 1) -gt 63 ] ; then
         >&2 echo "Error"
         exit 1
     fi
@@ -31,14 +31,13 @@ bin2dec()
     decimal=0
 
     chars_count=$(echo "$binary" | wc -m)
-    chars_count=`expr $chars_count - 1`
+    chars_count=$(expr $chars_count - 1)
     char_pos=$chars_count
-    while (( char_pos > 0 )) ; do
-	char_pos=`expr $char_pos - 1`
-        offset=`expr $chars_count - $char_pos - 1`
-        # FORBIDDEN? REPLACE BY EXPR!
-        if (( ${binary:$char_pos:1} == 1 )) ; then
-            decimal=$(( $decimal + 2 ** $offset ))
+    while [ $char_pos -gt 0 ] ; do
+	char_pos=$(expr $char_pos - 1)
+        offset=$(expr $chars_count - $char_pos - 1)
+        if [ $(expr substr $binary $(expr $char_pos + 1) 1) -eq 1 ] ; then
+            let decimal="$decimal + 2 ** $offset"
         fi
     done
     echo "bin2dec($binary)=$decimal"
