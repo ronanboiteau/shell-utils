@@ -5,12 +5,19 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 01:06:45 2017 Ronan Boiteau
-## Last update Tue Jan  3 13:53:45 2017 Ronan Boiteau
+## Last update Tue Jan  3 15:34:07 2017 Ronan Boiteau
 ##
+
+pop_error()
+{
+    >&2 echo "Error"
+    exit 1
+}
 
 check_usage()
 {
     readonly argc="$#"
+    negative="false"
 
     if [ "$argc" -ne 1 ] ; then
         >&2 echo "USAGE: $progname BinNumber"
@@ -19,9 +26,17 @@ check_usage()
     fi
 
     echo "$1" | grep -qE "^[01]+$"
-    if [ $? -eq 1 ] || [ $(expr $(echo $1 | wc -m) - 1) -gt 63 ] ; then
-        >&2 echo "Error"
-        exit 1
+    if [ $? -eq 1 ] ; then
+	echo "$1" | grep -qE "^-[01]+$"
+	if [ $? -eq 0 ] ; then
+	    negative="true"
+	else
+	    pop_error
+	fi
+    fi
+
+    if [ $(expr $(echo $1 | wc -m) - 1) -gt 63 ] ; then
+	pop_error
     fi
 }
 
@@ -29,7 +44,9 @@ bin2dec()
 {
     binary="$1"
     decimal=0
-
+    if [ $negative = "true" ] ; then
+	binary=$(echo $binary | sed 's/^.//')
+    fi
     chars_count=$(echo "$binary" | wc -m)
     chars_count=$(expr $chars_count - 1)
     char_pos=$chars_count
