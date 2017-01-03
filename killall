@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Tue Jan  3 15:43:57 2017 Ronan Boiteau
-## Last update Tue Jan  3 18:45:03 2017 Ronan Boiteau
+## Last update Tue Jan  3 18:54:12 2017 Ronan Boiteau
 ##
 
 print_usage()
@@ -65,7 +65,7 @@ kill_user()
 	echo $user_pids | tr ' ' '\n' | while read line ; do
 	    kill "$line" 2>/dev/null
 	    if [ $? -eq 1 ] ; then
-		echo "ERROR: pid $2 : no process found"
+		echo "ERROR: pid $line : no process found"
 		exit_status=1
 	    fi
 	done
@@ -92,7 +92,7 @@ kill_prog()
 	echo $user_pids | tr ' ' '\n' | while read line ; do
 	    kill "$line" 2>/dev/null
 	    if [ $? -eq 1 ] ; then
-		echo "ERROR: pid $2 : no process found"
+		echo "ERROR: pid $line : no process found"
 		exit_status=1
 	    fi
 	done
@@ -107,7 +107,7 @@ kill_all()
 	echo $user_pids | tr ' ' '\n' | while read line ; do
 	    kill "$line" 2>/dev/null
 	    if [ $? -eq 1 ] ; then
-		echo "ERROR: pid $2 : no process found"
+		echo "ERROR: pid $line : no process found"
 		exit_status=1
 	    fi
 	done
