@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Tue Jan  3 15:43:57 2017 Ronan Boiteau
-## Last update Tue Jan  3 22:16:24 2017 Ronan Boiteau
+## Last update Tue Jan  3 23:35:42 2017 Ronan Boiteau
 ##
 
 print_usage()
@@ -105,10 +105,13 @@ kill_all()
     while [ "$#" -gt 1 ] ; do
 	user_pids=$(ps -ef | sed '1d' | sed 's/ \+/ /g' | cut -d' ' -f2 | sort -nr)
 	echo $user_pids | tr ' ' '\n' | while read line ; do
-	    kill "$line" 2>/dev/null
-	    if [ $? -eq 1 ] ; then
-		echo "ERROR: pid $line : no process found"
-		exit_status=1
+	    if [ "$line" != "$$" ] ; then
+		echo lel
+		kill "$line" 2>/dev/null
+		if [ $? -eq 1 ] ; then
+		    echo "ERROR: pid $line : no process found"
+		    exit_status=1
+		fi
 	    fi
 	done
 	shift
