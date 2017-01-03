@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Tue Jan  3 15:43:57 2017 Ronan Boiteau
-## Last update Tue Jan  3 18:54:12 2017 Ronan Boiteau
+## Last update Tue Jan  3 21:26:59 2017 Ronan Boiteau
 ##
 
 print_usage()
@@ -88,7 +88,7 @@ kill_pid()
 kill_prog()
 {
     while [ "$#" -gt 1 ] ; do
-	user_pids=$(ps -ef | sed '1d' | sed 's/ \+/ /g' | grep "$2" | cut -d' ' -f2)
+	user_pids=$(ps -ef | sed '1d' | sed 's/ \+/ /g' | grep "$2" | grep -v "grep" | cut -d' ' -f2)
 	echo $user_pids | tr ' ' '\n' | while read line ; do
 	    kill "$line" 2>/dev/null
 	    if [ $? -eq 1 ] ; then
