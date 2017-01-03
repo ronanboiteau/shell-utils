@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Tue Jan  3 15:43:57 2017 Ronan Boiteau
-## Last update Tue Jan  3 17:01:32 2017 Ronan Boiteau
+## Last update Tue Jan  3 17:59:01 2017 Ronan Boiteau
 ##
 
 print_usage()
@@ -15,6 +15,7 @@ print_usage()
     >&2 echo "        -pid pid1 ... : Kill a process with pid pid1, ..."
     >&2 echo "        -prog prog1 ... : Kill all processes whose program's name is prog1, ..."
     >&2 echo "        -all : Kill all processes"
+    >&2 echo -e "\t\t"
     exit 1
 }
 
@@ -60,7 +61,24 @@ option_parser()
 kill_pid()
 {
     while [ "$#" -gt 1 ] ; do
-	kill "$2"
+	kill "$2" 2>/dev/null
+	if [ $? -eq 1 ] ; then
+	    echo "ERROR: pid $2 : no process found"
+	fi
+	shift
+    done
+}
+
+kill_user()
+{
+    while [ "$#" -gt 1 ] ; do
+	user_pids=$(ps -ef | grep "$2" | sed 's/ \+/ /g' | cut -d' ' -f2)
+	echo $user_pids | tr ' ' '\n' | while read line ; do
+	    kill "$line" 2>/dev/null
+	    if [ $? -eq 1 ] ; then
+		echo "ERROR: pid $2 : no process found"
+	    fi
+	done
 	shift
     done
 }
