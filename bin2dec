@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 01:06:45 2017 Ronan Boiteau
-## Last update Tue Jan  3 17:05:00 2017 Ronan Boiteau
+## Last update Tue Jan  3 18:49:43 2017 Ronan Boiteau
 ##
 
 pop_error()
@@ -57,7 +57,11 @@ bin2dec()
             let decimal="$decimal + 2 ** $offset"
         fi
     done
-    echo "bin2dec($1)=$decimal"
+    echo -n "bin2dec($1)="
+    if [ $negative = "true" ] ; then
+	echo -n "-"
+    fi
+    echo "$decimal"
 }
 
 main()
