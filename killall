@@ -1,0 +1,60 @@
+#!/bin/sh
+## killall for killall in /home/ronan/rendu/SHL_2016_shell
+## 
+## Made by Ronan Boiteau
+## Login   <ronan.boiteau@epitech.net>
+## 
+## Started on  Tue Jan  3 15:43:57 2017 Ronan Boiteau
+## Last update Tue Jan  3 15:53:16 2017 Ronan Boiteau
+##
+
+print_usage()
+{
+    >&2 echo "USAGE: $0 option"
+    >&2 echo "option: -user user1 ... : Kill all processes for user1, ..."
+    >&2 echo "        -pid pid1 ... : Kill a process with pid pid1, ..."
+    >&2 echo "        -prog prog1 ... : Kill all processes whose program's name is prog1, ..."
+    >&2 echo "        -all : Kill all processes"
+    exit 1
+}
+
+option_parser()
+{
+    mode="none"
+    
+    while [ "$#" -gt 0 ] ; do
+	arg="$1"
+	case $arg in
+	    -user)
+		mode="user"
+		;;
+	    -pid)
+		mode="pid"
+		;;
+	    -prog)
+		mode="prog"
+		;;
+	    -all)
+		mode="all"
+		;;
+	    -*)
+		>&2 echo "ERROR: $arg unknown option"
+		exit 1
+		;;
+	esac
+	shift
+    done
+    if [ "$mode" = "none" ] ; then
+	print_usage
+    fi
+}
+
+main()
+{
+    readonly progname="$0"
+
+    option_parser "$@"
+    exit 0
+}
+
+main "$@"
