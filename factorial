@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 17:36:13 2017 Ronan Boiteau
-## Last update Tue Jan  3 12:00:03 2017 Ronan Boiteau
+## Last update Tue Jan  3 13:55:13 2017 Ronan Boiteau
 ##
 
 check_usage()
@@ -35,7 +35,7 @@ find_factorial()
     result=1
     while [ "$nbr" -gt 0 ] ; do
 	result=$(( result * nbr ))
-	nbr=`expr $nbr - 1`
+	nbr=$(expr $nbr - 1)
     done
     echo $result
 }
