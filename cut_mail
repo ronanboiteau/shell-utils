@@ -5,21 +5,16 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 13:28:35 2017 Ronan Boiteau
-## Last update Mon Jan  2 13:53:43 2017 Ronan Boiteau
+## Last update Tue Jan  3 23:38:56 2017 Ronan Boiteau
 ##
-
-print_usage()
-{
-    >&2 echo "USAGE: $progname mbox destdir"
-    exit 1
-}
 
 check_usage()
 {
     readonly argc="$#"
 
-    if (( "$argc" != 2 )) ; then
-	print_usage
+    if [ "$argc" -ne 2 ] ; then
+	>&2 echo "USAGE: $progname mbox destdir"
+	exit 1
     fi
 }
 
