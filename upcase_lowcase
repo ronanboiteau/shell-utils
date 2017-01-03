@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 17:36:13 2017 Ronan Boiteau
-## Last update Mon Jan  2 22:56:54 2017 Ronan Boiteau
+## Last update Tue Jan  3 11:04:11 2017 Ronan Boiteau
 ##
 
 print_usage()
@@ -20,7 +20,7 @@ option_parser()
 {
     mode="none"
     
-    while (( "$#" > 0 )) ; do
+    while [ "$#" -gt 0 ] ; do
 	arg="$1"
 	case $arg in
 	    "-l")
