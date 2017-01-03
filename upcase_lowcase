@@ -5,7 +5,7 @@
 ## Login   <ronan.boiteau@epitech.net>
 ## 
 ## Started on  Mon Jan  2 17:36:13 2017 Ronan Boiteau
-## Last update Tue Jan  3 11:04:11 2017 Ronan Boiteau
+## Last update Tue Jan  3 15:37:53 2017 Ronan Boiteau
 ##
 
 print_usage()
@@ -23,13 +23,13 @@ option_parser()
     while [ "$#" -gt 0 ] ; do
 	arg="$1"
 	case $arg in
-	    "-l")
+	    -l)
 		mode="lowcase"
 		;;
-	    "-u")
+	    -u)
 		mode="upcase"
 		;;
-	    "-*")
+	    -*)
 		>&2 echo "ERROR: $arg unknown option"
 		exit 1
 		;;
