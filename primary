@@ -1,12 +1,4 @@
 #!/bin/sh
-## primary for primary in /home/ronan/rendu/SHL_2016_shell
-## 
-## Made by Ronan Boiteau
-## Login   <ronan.boiteau@epitech.net>
-## 
-## Started on  Mon Jan  2 14:04:10 2017 Ronan Boiteau
-## Last update Tue Jan  3 13:54:54 2017 Ronan Boiteau
-##
 
 check_usage()
 {

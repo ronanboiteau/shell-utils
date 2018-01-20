@@ -1,12 +1,4 @@
 #!/bin/sh
-## bin2dec for bin2dec in /home/ronan/rendu/SHL_2016_shell
-## 
-## Made by Ronan Boiteau
-## Login   <ronan.boiteau@epitech.net>
-## 
-## Started on  Mon Jan  2 01:06:45 2017 Ronan Boiteau
-## Last update Tue Jan  3 18:49:43 2017 Ronan Boiteau
-##
 
 pop_error()
 {

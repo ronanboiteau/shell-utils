@@ -1,12 +1,4 @@
 #!/bin/sh
-## factorial for factorial in /home/ronan/rendu/SHL_2016_shell
-## 
-## Made by Ronan Boiteau
-## Login   <ronan.boiteau@epitech.net>
-## 
-## Started on  Mon Jan  2 17:36:13 2017 Ronan Boiteau
-## Last update Tue Jan  3 15:44:35 2017 Ronan Boiteau
-##
 
 print_usage()
 {
