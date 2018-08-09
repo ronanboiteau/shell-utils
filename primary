@@ -47,7 +47,7 @@ find_primary()
         nbr=$(expr $nbr + 1)
     done
     if [ $prime -gt 0 ] ; then
-    	echo
+        echo
     fi
 }
 
