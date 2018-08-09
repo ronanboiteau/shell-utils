@@ -27,7 +27,7 @@ find_factorial()
     result=1
     while [ "$nbr" -gt 0 ] ; do
         result=$(( result * nbr ))
-        nbr=$(expr $nbr - 1)
+        nbr=$(( $nbr - 1 ))
     done
     echo $result
 }
