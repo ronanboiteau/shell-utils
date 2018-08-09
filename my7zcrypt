@@ -1,48 +1,48 @@
 #!/bin/bash
 
-_check_usage()
+check_usage()
 {
-    readonly ARGC="$1"
+    let argc="$1"
     
-    if (( "$ARGC" != 1 )) ; then
-	echo "Usage: $PROGNAME [FILE|FOLDER]"
-	exit 1
+    if (( "$argc" != 1 )) ; then
+        echo "Usage: $progname [FILE|FOLDER]"
+        exit 1
     fi
     return 0
 }
 
-_check_filepath()
+check_filepath()
 {
-    if [[ ! -d "$FILEPATH" ]] && [[ ! -f "$FILEPATH" ]] ; then
-	echo "$PROGNAME: cannot encrypt ‘$FILEPATH’: No such file or directory"
-	exit 1
+    if [[ ! -d "$filepath" ]] && [[ ! -f "$filepath" ]] ; then
+        echo "$progname: cannot encrypt ‘$filepath’: No such file or directory"
+        exit 1
     fi
     return 0
 }
 
-_check_read_permission()
+check_read_permission()
 {
-    if [[ ! -r "$FILEPATH" ]] ; then
-	echo "Cannot read ‘$FILEPATH’: Permission denied"
-	exit 1
+    if [[ ! -r "$filepath" ]] ; then
+        echo "Cannot read ‘$filepath’: Permission denied"
+        exit 1
     fi
     return 0
 }
 
 main()
 {
-    _check_usage "$#"
-    readonly FILEPATH="$1"
-    _check_filepath "$FILEPATH"
-    _check_read_permission "$FILEPATH"
+    check_usage "$#"
+    readonly filepath="$1"
+    check_filepath "$filepath"
+    check_read_permission "$filepath"
 
     echo -e "Passphrase? \c"
-    read PASSPHRASE
+    read passphrase
 
-    7z a -tzip "-p$PASSPHRASE" -mem=AES256 "$1.zip" "$1"
+    7z a -tzip "-p$passphrase" -mem=AES256 "$1.zip" "$1"
     
     exit 0
 }
 
-readonly PROGNAME="my7zcrypt"
+readonly progname="my7zcrypt"
 main "$@"
