@@ -13,8 +13,8 @@ check_usage()
 
 check_filepath()
 {
-    if [[ ! -d "$filepath" ]] && [[ ! -f "$filepath" ]] ; then
-        echo "$progname: cannot encrypt ‘$filepath’: No such file or directory"
+    if [[ ! -d "$1" ]] && [[ ! -f "$1" ]] ; then
+        echo "$progname: cannot encrypt '$1': No such file or directory"
         exit 1
     fi
     return 0
@@ -22,8 +22,8 @@ check_filepath()
 
 check_read_permission()
 {
-    if [[ ! -r "$filepath" ]] ; then
-        echo "Cannot read ‘$filepath’: Permission denied"
+    if [[ ! -r "$1" ]] ; then
+        echo "Cannot read '$1': Permission denied"
         exit 1
     fi
     return 0
@@ -33,8 +33,8 @@ main()
 {
     check_usage "$#"
     readonly filepath="$1"
-    check_filepath
-    check_read_permission
+    check_filepath "$filepath"
+    check_read_permission "$filepath"
 
     echo -e "Passphrase? \c"
     read passphrase
