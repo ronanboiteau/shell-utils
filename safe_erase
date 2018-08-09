@@ -13,8 +13,8 @@ check_usage()
 
 check_filepath()
 {
-    if [[ ! -f "$filepath" ]] ; then
-        echo "$progname: cannot encrypt ‘$filepath’: No such file"
+    if [[ ! -f "$1" ]] ; then
+        echo "$progname: cannot encrypt '$1': No such file"
         if [[ -d "$1" ]] ; then
             echo "$progname does not support directories at this time"
         fi
@@ -27,7 +27,7 @@ main()
 {
     check_usage "$#"
     readonly filepath="$1"
-    check_filepath
+    check_filepath "$filepath"
 
     echo -e "How many passes? \c"
     read passes
